@@ -1,0 +1,6 @@
+{
+  "name": "VaultBox – Secure Cloud File Vault",
+  "description": "Zero-knowledge end-to-end encrypted cloud file vault with client-side Web Crypto AES-GCM, RSA key sharing, folders, versioning, and activity audit logs.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

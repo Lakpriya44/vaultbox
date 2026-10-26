@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vaultbox-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+      - JWT_SECRET=vaultbox_super_secret_production_key_2026
+      - MONGODB_URI=mongodb://mongo:27017/vaultbox
+      - UPLOAD_DIR=uploads
+    depends_on:
+      - mongo
+    volumes:
+      - vaultbox_uploads:/app/uploads
+      - vaultbox_data:/app/data
+
+  mongo:
+    image: mongo:6.0-alpine
+    container_name: vaultbox-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  vaultbox_uploads:
+  vaultbox_data:
+  mongo_data:

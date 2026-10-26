@@ -1,0 +1,17 @@
+```gitignore
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+
+# Environment files
+.env*
+
+# Allow the example file only after removing real credentials
+# !.env.example
+
+# VaultBox data containing credentials
+data/vaultbox.json
+```

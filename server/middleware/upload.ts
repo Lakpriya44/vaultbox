@@ -1,0 +1,11 @@
+import multer from 'multer';
+import { config } from '../config';
+
+const storage = multer.memoryStorage();
+
+export const uploadMiddleware = multer({
+  storage,
+  limits: {
+    fileSize: config.maxFileSize,
+  },
+});
