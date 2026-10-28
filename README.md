@@ -169,14 +169,3 @@ docker-compose up --build -d
 ```
 
 ---
-
-## 🎓 7. Viva & Technical Defense Q&A
-
-1. **Why not encrypt files on the server using Node's crypto library?**
-   - If encryption occurs on the server, the server holds both the plaintext and the encryption key. A compromise of the server or a rogue administrator would expose all files. VaultBox performs encryption exclusively in the client's browser using Web Crypto API before transmission.
-2. **How does PBKDF2 protect against brute-force attacks?**
-   - PBKDF2 applies 310,000 iterations of SHA-256 HMAC along with a 128-bit salt. This computational cost prevents rainbow table attacks and slows dictionary attacks to a crawl.
-3. **Why use AES-GCM rather than AES-CBC?**
-   - AES-GCM provides authenticated encryption (AEAD). Along with encryption, it calculates a 128-bit GHASH authentication tag. Any tampering, truncation, or bit-flipping during transit or storage results in an authentication error before decryption occurs.
-4. **How does file sharing work without sharing the user's master password?**
-   - Each file has an independent, randomly generated 256-bit AES key. Sharing involves unwrapping only that file's key and re-encrypting it with the recipient's RSA-OAEP public key. The owner's master password and master key are never exposed.
