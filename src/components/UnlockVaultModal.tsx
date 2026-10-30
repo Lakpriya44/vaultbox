@@ -67,16 +67,7 @@ export const UnlockVaultModal: React.FC = () => {
                 autoFocus
               />
             </div>
-            {user.email === 'alice@vaultbox.io' && (
-              <p className="text-[11px] text-slate-400 mt-1">
-                Demo hint: Alice's password is <code className="text-emerald-400">Password123!#</code>
-              </p>
-            )}
-            {user.email === 'bob@vaultbox.io' && (
-              <p className="text-[11px] text-slate-400 mt-1">
-                Demo hint: Bob's password is <code className="text-emerald-400">Password123!#</code>
-              </p>
-            )}
+            
           </div>
 
           <div className="flex gap-2 pt-2">

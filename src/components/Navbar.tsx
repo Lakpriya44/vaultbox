@@ -27,12 +27,28 @@ export const Navbar: React.FC<{
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showDemoSwitch, setShowDemoSwitch] = useState(false);
 
-  const handleSwitchUser = async (targetEmail: string) => {
-    setShowDemoSwitch(false);
-    setShowUserMenu(false);
-    await quickDemoLogin(targetEmail, 'Password123!#');
-    success('Switched User', `Now logged in as ${targetEmail}. Memory keys derived.`);
-  };
+  const DEMO_ACCOUNTS: Record<string, string> = {
+  'user01@domain.com': 'user01Pass!',
+  'user02@domain.com': 'user02Pass!',
+};
+
+const handleSwitchUser = async (targetEmail: string) => {
+  setShowDemoSwitch(false);
+  setShowUserMenu(false);
+
+  const password = DEMO_ACCOUNTS[targetEmail];
+
+  if (!password) {
+    return;
+  }
+
+  try {
+    await quickDemoLogin(targetEmail, password);
+    success('Switched User', `Now logged in as ${targetEmail}.`);
+  } catch (error) {
+    console.error('Account switching failed:', error);
+  }
+};
 
   return (
     <header className="sticky top-0 z-30 h-16 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md px-4 sm:px-6 flex items-center justify-between transition-colors">
@@ -100,28 +116,28 @@ export const Navbar: React.FC<{
                 Switch Test Account
               </p>
               <button
-                onClick={() => handleSwitchUser('alice@vaultbox.io')}
+                onClick={() => handleSwitchUser('user01@domain.com')}
                 className={`w-full text-left px-3 py-2 rounded-xl text-xs flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors ${
-                  user?.email === 'alice@vaultbox.io' ? 'bg-emerald-500/10 text-emerald-500 font-semibold' : 'text-slate-700 dark:text-slate-200'
+                  user?.email === 'user01@domain.com' ? 'bg-emerald-500/10 text-emerald-500 font-semibold' : 'text-slate-700 dark:text-slate-200'
                 }`}
               >
                 <div>
-                  <div className="font-medium">Alice (Owner)</div>
-                  <div className="text-[11px] text-slate-400">alice@vaultbox.io</div>
+                  <div className="font-medium">User01</div>
+                  <div className="text-[11px] text-slate-400">user01@domain.com</div>
                 </div>
-                {user?.email === 'alice@vaultbox.io' && <ShieldCheck className="w-4 h-4 text-emerald-500" />}
+                {user?.email === 'user01@domain.com' && <ShieldCheck className="w-4 h-4 text-emerald-500" />}
               </button>
               <button
-                onClick={() => handleSwitchUser('bob@vaultbox.io')}
+                onClick={() => handleSwitchUser('user02@domain.com')}
                 className={`w-full text-left px-3 py-2 rounded-xl text-xs flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors ${
-                  user?.email === 'bob@vaultbox.io' ? 'bg-emerald-500/10 text-emerald-500 font-semibold' : 'text-slate-700 dark:text-slate-200'
+                  user?.email === 'user02@domain.com' ? 'bg-emerald-500/10 text-emerald-500 font-semibold' : 'text-slate-700 dark:text-slate-200'
                 }`}
               >
                 <div>
-                  <div className="font-medium">Bob (Recipient)</div>
-                  <div className="text-[11px] text-slate-400">bob@vaultbox.io</div>
+                  <div className="font-medium">User02</div>
+                  <div className="text-[11px] text-slate-400">user02@domain.com</div>
                 </div>
-                {user?.email === 'bob@vaultbox.io' && <ShieldCheck className="w-4 h-4 text-emerald-500" />}
+                {user?.email === 'user02@domain.com' && <ShieldCheck className="w-4 h-4 text-emerald-500" />}
               </button>
             </div>
           )}
