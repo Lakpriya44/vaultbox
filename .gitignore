@@ -1,17 +1,24 @@
-```gitignore
+
+# Dependencies
 node_modules/
+
+# Build outputs
 build/
 dist/
 coverage/
-.DS_Store
-*.log
 
 # Environment files
-.env*
+.env
+.env.*
+!.env.example
 
-# Allow the example file only after removing real credentials
-# !.env.example
-
-# VaultBox data containing credentials
+# Local application data and uploads
 data/vaultbox.json
-```
+uploads/
+
+# Logs
+*.log
+
+# Operating system files
+.DS_Store
+Thumbs.db

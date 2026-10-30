@@ -71,7 +71,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     },
     {
       id: 'dashboard',
-      label: 'Security Dashboard',
+      label: 'Vault Dashboard',
       icon: LayoutDashboard,
       count: undefined,
     },

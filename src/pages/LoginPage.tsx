@@ -39,17 +39,26 @@ export const LoginPage: React.FC<{ onNavigateToRegister: () => void }> = ({
     }
   };
 
-  const handleDemoLogin = async (email: string) => {
-    setLoadingDemo(email);
-    try {
-      await quickDemoLogin(email, 'Password123!#');
-      success('Demo Account Ready', `Logged in as ${email}. Derived keys ready in RAM.`);
-    } catch (err: any) {
-      toastError('Demo Login Failed', err.message);
-    } finally {
-      setLoadingDemo(null);
-    }
-  };
+  const DEMO_ACCOUNTS: Record<string, string> = {
+  'user01@domain.com': 'user01Pass!',
+  'user02@domain.com': 'user02Pass!',
+};
+
+const handleDemoLogin = async (email: string) => {
+  const password = DEMO_ACCOUNTS[email];
+
+  if (!password) return;
+
+  setLoadingDemo(email);
+
+  try {
+    await login(email, password);
+  } catch (error) {
+    console.error('Demo login failed:', error);
+  } finally {
+    setLoadingDemo(null);
+  }
+};
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-center items-center p-4 relative overflow-hidden font-sans">
@@ -134,29 +143,27 @@ export const LoginPage: React.FC<{ onNavigateToRegister: () => void }> = ({
               1-Click Demo Accounts (Pre-configured)
             </p>
             <div className="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={() => handleDemoLogin('alice@vaultbox.io')}
-                disabled={loadingDemo !== null}
-                className="p-2.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 text-left transition-colors text-xs disabled:opacity-50"
-              >
-                <div className="font-bold text-emerald-400">Alice (Owner)</div>
-                <div className="text-[10px] text-slate-400">alice@vaultbox.io</div>
-              </button>
+              
 
               <button
                 type="button"
-                onClick={() => handleDemoLogin('bob@vaultbox.io')}
+                onClick={() => handleDemoLogin('user01@domain.com')}
                 disabled={loadingDemo !== null}
                 className="p-2.5 rounded-xl border border-teal-500/30 bg-teal-500/10 hover:bg-teal-500/20 text-left transition-colors text-xs disabled:opacity-50"
               >
-                <div className="font-bold text-teal-400">Bob (Recipient)</div>
-                <div className="text-[10px] text-slate-400">bob@vaultbox.io</div>
+                <div className="font-bold text-teal-400">User01</div>
+                <div className="text-[10px] text-slate-400">user01@domain.com</div>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDemoLogin('user02@domain.com')}
+                disabled={loadingDemo !== null}
+                className="p-2.5 rounded-xl border border-teal-500/30 bg-teal-500/10 hover:bg-teal-500/20 text-left transition-colors text-xs disabled:opacity-50"
+              >
+                <div className="font-bold text-teal-400">User02</div>
+                <div className="text-[10px] text-slate-400">user02@domain.com</div>
               </button>
             </div>
-            <p className="text-[10px] text-slate-500 mt-2 text-center">
-              Password for both demo accounts: <code className="text-emerald-400">Password123!#</code>
-            </p>
           </div>
         </div>
 
